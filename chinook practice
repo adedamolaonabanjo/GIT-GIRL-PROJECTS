@@ -1,0 +1,28 @@
+
+##question one##
+select genre.genre_id, genre.name, invoice_line.quantity, invoice.invoice_id, COUNT(invoice.total) as top_selling_genre from customer
+join invoice
+on customer.customer_id = invoice.customer_id
+join invoice_line
+on invoice.invoice_id = invoice_line.invoice_id
+join track
+on invoice_line.track_id = track.track_id
+join genre
+on track.genre_id = genre.genre_id
+GROUP BY genre.name
+order by top_selling_genre desc;
+
+##question two##
+select employee.employee_id, employee.last_name || " " || employee.first_name as full_name,
+sum(invoice.total) as total_sales from invoice
+join customer
+on invoice.customer_id = customer.customer_id
+join employee
+on customer.support_rep_id = employee.employee_id
+group by full_name
+order by total_sales desc;
+
+##question three##
+select customer_id, billing_country, sum(total) as total_per_country from invoice
+group by billing_country
+order by total_per_country desc;
